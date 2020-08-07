@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Iframe from "react-iframe";
+import Nav from "./nav";
+import sites from "./assets/data/sites";
+import Footer from "./footer";
 
 function App() {
+  const [site, setSite] = useState(sites[0]);
+  const [allSites] = useState(sites);
+
+  const handleChange = (e) => {
+    let filtered = sites.filter((site) => site.title === e.target.value);
+    // console.log(filtered[0]);
+    setSite(filtered[0]);
+  };
+
+  const siteRender = () => {
+    return (
+      <Iframe url={site.url} className="p-4 pt-0 w-full h-full shadow-xl" />
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ height: `100vh` }}>
+      <Nav sites={allSites} handleChange={handleChange} />
+      {siteRender()}
+      <Footer />
     </div>
   );
 }
